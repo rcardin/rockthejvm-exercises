@@ -10,7 +10,7 @@ object Monads {
   // Exercise 1
   // Implement a Lazy[T] monad = computation which will only be executed when it's needed.
 
-  class Lazy[+A](value: => A) {
+  class Lazy[A](value: => A) {
     private lazy val internal: A = value
     def get: A = internal
     def flatMap[B](f: (=> A) => Lazy[B]): Lazy[B] = f(internal)
