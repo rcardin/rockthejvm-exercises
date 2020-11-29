@@ -1,3 +1,5 @@
+package advance
+
 object Monads {
 
   // Right identity
@@ -12,12 +14,16 @@ object Monads {
 
   class Lazy[A](value: => A) {
     private lazy val internal: A = value
+
     def get: A = internal
+
     def flatMap[B](f: (=> A) => Lazy[B]): Lazy[B] = f(internal)
 
     def map[B](f: A => B): Lazy[B] = flatMap(x => Lazy(f(x)))
+
     def flatten(m: Lazy[Lazy[A]]): Lazy[A] = m.flatMap(x => x)
   }
+
   object Lazy {
     def apply[A](value: => A): Lazy[A] = new Lazy(value) //Unit
   }
