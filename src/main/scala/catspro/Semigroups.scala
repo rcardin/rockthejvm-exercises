@@ -13,6 +13,7 @@ object Semigroups {
     list.reduce(semigroup.combine)
   }
 
+  // |+| is associative
   import cats.syntax.semigroup._
   def reduceThings2[T: Semigroup](list: List[T]): T = list.reduce(_ |+| _)
 
