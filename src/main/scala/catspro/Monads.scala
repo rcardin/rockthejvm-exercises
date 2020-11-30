@@ -14,7 +14,9 @@ object Monads {
 
   trait MyMonad[M[_]] {
     def pure[A](value: A): M[A]
+
     def flatMap[A, B](ma: M[A])(f: A => M[B]): M[B]
+
     def map[A, B](ma: M[A])(f: A => B): M[B] = flatMap(ma)(x => pure(f(x)))
   }
 
@@ -23,12 +25,12 @@ object Monads {
 
   import cats.syntax.flatMap._
   import cats.syntax.functor._
-  def getPairsForComprehension[M[_]: Monad[M], A, B](ma: M[A], mb: M[B]): M[(A, B)] = {
+
+  def getPairsForComprehension[M[_] : Monad[M], A, B](ma: M[A], mb: M[B]): M[(A, B)] =
     for {
       a <- ma
       b <- mb
     } yield (a, b)
-  }
 
   def main(args: Array[String]): Unit = {
     println(future)
