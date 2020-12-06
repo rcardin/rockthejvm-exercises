@@ -26,7 +26,7 @@ object Monads {
   import cats.syntax.flatMap._
   import cats.syntax.functor._
 
-  def getPairsForComprehension[M[_] : Monad[M], A, B](ma: M[A], mb: M[B]): M[(A, B)] =
+  def getPairsForComprehension[M[_] : Monad, A, B](ma: M[A], mb: M[B]): M[(A, B)] =
     for {
       a <- ma
       b <- mb
