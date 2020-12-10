@@ -28,6 +28,7 @@ object MonadTransformers {
   def generateTrafficSpikeReport(s1: String, s2: String): AsyncResponse[String] =
     canWithstandSurge(s1, s2).transform {
       case Left(reason) => Left(reason)
-      case Right(b) => if (b) Right("All green") else Left("The spike is too big!")
+      case Right(true) => Right("All green")
+      case Right(false) => Left("The spike is too big!")
     }
 }
