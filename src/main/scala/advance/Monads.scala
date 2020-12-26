@@ -3,7 +3,7 @@ package advance
 object Monads {
 
   // Right identity
-  // Monad(x).flatMap(f) = f(x)
+  // Monad.unit(x).flatMap(f) = f(x)
   // Left identity
   // x.flatMap(y => Monad(y)) = x
   // Associativity
@@ -29,6 +29,29 @@ object Monads {
   }
 
   def main(args: Array[String]): Unit = {
+    val lazyInt: Lazy[Int] = Lazy {
+      println("The response to everything is 42")
+      42
+    }
+    val lazyString42: Lazy[String] = lazyInt.flatMap { intValue =>
+      Lazy(intValue.toString)
+    }
+
+    val result: Lazy[Int] = for {
+      first <- Lazy(1)
+      second <- Lazy(2)
+      third <- Lazy(3)
+    } yield first + second + third
+
+    val anotherResult: Lazy[Int] =
+      Lazy(1).flatMap { first =>
+        Lazy(2).flatMap { second =>
+          Lazy(3).map { third =>
+            first + second + third
+          }
+        }
+      }
+
     // Lazy(x).flatMap(f) == f(x)
     // Lazy(x).flatMap(y => Lazy(y)) == Lazy(x)
     // Lazy(x).flapMap(f).flatMap(g) == f(x).flatMap(g)
