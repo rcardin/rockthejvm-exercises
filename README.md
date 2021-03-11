@@ -1,3 +1,5 @@
+<a href="https://typelevel.org/cats/"><img src="https://typelevel.org/cats/img/cats-badge.svg" height="40px" align="right" alt="Cats friendly" /></a>
+<br/>
 # Rock The JVM - Cats Course's Exercises
 
 ## Cats Type Classes Hierarchy
@@ -14,4 +16,6 @@ The copyright of the above image is of the [RockTheJvm](https://rockthejvm.com/)
 The type class `Applicative` implements a model of execution that allows us to execute a list of
 function on the effect `F`, regardless the success or failure of each application.
 
-In Cats, a well-known instance of the `Applicative` type class is the `Validated` class.
+In Cats, a well-known instance of the `Applicative` type class is the `Validated[E, A]` class. The
+`E` type parameter represents the type of the error. Instead, the `A` type parameter represents the
+type of right value.
