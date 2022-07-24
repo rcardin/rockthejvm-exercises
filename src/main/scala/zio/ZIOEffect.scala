@@ -1,6 +1,8 @@
 package zio
 
-class ZIOEffect {
+import java.lang.Thread
+
+object ZIOEffect {
 
   // Exercise 1
   // Sequence two ZIOs and take the value of the last one
@@ -24,11 +26,41 @@ class ZIOEffect {
   // Discard the value of a ZIO to Unit
   def asUnit[R, E, A](zio: ZIO[R, E, A]): ZIO[R, E, Unit] = zio.unit
 
+  // Exercise 6
+  def sum(n: Int): Int =
+    if (n == 0) 0
+    else n + sum(n - 1)
+
+  def sumZIO(n: Int): UIO[Int] =
+    if (n == 0) ZIO.succeed(0)
+    else for {
+      current <- ZIO.succeed(n)
+      prevSum <- sumZIO(n - 1)
+    } yield current + prevSum
+
+
   def main(args: Array[String]): Unit = {
     val runtime = Runtime.default
     implicit val trace: Trace = Trace.empty
     Unsafe.unsafe { implicit u =>
-      // runtime.unsafe.run()
+      val firstEffect = ZIO.succeed {
+        println("First effect...")
+        1
+      }
+      val secondEffect = ZIO.succeed {
+        println("Second effect...")
+        2
+      }
+      println(
+        runtime.unsafe.run(
+          runForever {
+            ZIO.succeed {
+              println("Running...")
+              Thread.sleep(1000)
+            }
+          }
+        )
+      )
     }
   }
 }
