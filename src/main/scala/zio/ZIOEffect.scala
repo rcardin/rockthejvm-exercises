@@ -1,7 +1,5 @@
 package zio
 
-import java.lang.Thread
-
 object ZIOEffect {
 
   // Exercise 1
